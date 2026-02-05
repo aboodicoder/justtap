@@ -1,4 +1,3 @@
-l
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,15 +22,6 @@ l
     .ok{ color:#0a7; }
     .bad{ color:#c22; }
     .note{ font-size:12px; opacity:.65; margin-top:10px; }
-    .adminHint{
-      margin-top: 10px;
-      font-size: 12px;
-      opacity: .7;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-      line-height: 1.3;
-    }
-    code{ background:#f3f3f3; padding:1px 6px; border-radius:8px; }
   </style>
 </head>
 <body>
@@ -54,12 +44,6 @@ l
         <button id="signupBtn">Create account</button>
         <div class="msg" id="suMsg"></div>
         <div class="note">One-device storage (localStorage).</div>
-
-        <div class="adminHint">
-          Admin login:<br/>
-          Username: <code>Admin</code><br/>
-          Password: <code>gettrolledhaha</code>
-        </div>
       </div>
 
       <div class="card">
@@ -78,7 +62,7 @@ l
     const LS_USERS = "tap_users";
     const LS_SESSION = "tap_session";
 
-    // Ensure Admin account always exists
+    // Ensure Admin account always exists (hidden, not shown in UI)
     (function ensureAdmin(){
       let users;
       try { users = JSON.parse(localStorage.getItem(LS_USERS) || "{}"); }
@@ -124,6 +108,12 @@ l
       if (!username || !password){
         suMsg.className = "msg bad";
         suMsg.textContent = "Fill all fields.";
+        return;
+      }
+
+      if (username === "Admin"){
+        suMsg.className = "msg bad";
+        suMsg.textContent = "That username is reserved.";
         return;
       }
 
